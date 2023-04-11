@@ -1,22 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using Word = Microsoft.Office.Interop.Word;
 using System.IO;
+using Word = Microsoft.Office.Interop.Word;
 
 namespace AutoOpen_Word
 {
     public partial class ThisAddIn
     {
-        private List<string> closedDocs = new List<string>();
+        private const string tempFileName = "OpenedDocs.txt";
+        private readonly List<string> closedDocs = new List<string>();
 
         private void InternalStartup()
         {
-            this.Startup += new EventHandler(ThisAddIn_Startup);
+            Startup += new EventHandler(ThisAddIn_Startup);
         }
 
-        private void ThisAddIn_Startup(object sender, System.EventArgs e)
+        private void ThisAddIn_Startup(object sender, EventArgs e)
         {
-            string fileName = Path.Combine(Path.GetTempPath(), "OpenedDocuments.txt");
+            string fileName = Path.Combine(Path.GetTempPath(), tempFileName);
             if (File.Exists(fileName))
             {
                 string[] lines = File.ReadAllLines(fileName);
@@ -26,8 +27,8 @@ namespace AutoOpen_Word
                 }
                 File.Delete(fileName);
             }
-            this.Application.DocumentOpen += Application_DocumentOpen;
-            this.Application.DocumentBeforeClose += Application_DocumentBeforeClose;
+            Application.DocumentOpen += Application_DocumentOpen;
+            Application.DocumentBeforeClose += Application_DocumentBeforeClose;
         }
 
         private void Application_DocumentOpen(Word.Document Doc)
@@ -37,7 +38,7 @@ namespace AutoOpen_Word
 
         private void Application_DocumentBeforeClose(Word.Document Doc, ref bool Cancel)
         {
-            string fileName = Path.Combine(Path.GetTempPath(), "OpenedDocuments.txt");
+            string fileName = Path.Combine(Path.GetTempPath(), tempFileName);
             File.WriteAllLines(fileName, closedDocs);
         }
     }
