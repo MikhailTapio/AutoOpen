@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
+﻿using System.Collections.Generic;
 using PowerPoint = Microsoft.Office.Interop.PowerPoint;
-using Office = Microsoft.Office.Core;
 using System.IO;
 
 namespace AutoOpen_PPT
@@ -12,7 +7,7 @@ namespace AutoOpen_PPT
     public partial class ThisAddIn
     {
         private const string tempFileName = "OpenedPres.txt";
-        private List<string> closedPres = new List<string>();
+        private readonly List<string> closedPres = new List<string>();
         private void InternalStartup()
         {
             this.Startup += new System.EventHandler(ThisAddIn_Startup);
