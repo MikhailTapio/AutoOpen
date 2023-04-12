@@ -15,7 +15,6 @@ namespace AutoOpen_PPT
         private static readonly DateTime Jan1st1970 = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         private const string openedName = "OpenedPres.txt";
         private readonly Dictionary<string, long> closed = new Dictionary<string, long>();
-        private readonly List<string> closedPres = new List<string>();
         private void InternalStartup()
         {
             Startup += ThisAddIn_Startup;
